@@ -262,7 +262,7 @@ class WeatherFlowMqtt:
                         EVENT_STRIKE,
                         lambda event: self._handle_strike_event(device, event),
                     )
-                    self._publish_strike_storage(device)
+                    self._publish_strike_storage(device, replay=True)
                 if isinstance(device, SkySensorType):
                     device.on(
                         EVENT_RAPID_WIND,
@@ -518,13 +518,15 @@ class WeatherFlowMqtt:
         self._add_to_queue(attr_topic, json.dumps(attr_data))
 
     def _publish_strike_storage(
-        self, device: AirSensorType
+        self, device: AirSensorType, replay=False,
     ):
         """Publish the strike info in storage."""
         data = OrderedDict()
         data["lightning_strike_distance"] = self.storage["last_lightning_distance"]
         data["lightning_strike_energy"] = self.storage["last_lightning_energy"]
         data["lightning_strike_time"] = self.cnv.utc_from_timestamp(self.storage["last_lightning_time"])
+        if replay:
+            data["replay"] = True
         self._publish_state(device, EVENT_STRIKE, data)
 
 
