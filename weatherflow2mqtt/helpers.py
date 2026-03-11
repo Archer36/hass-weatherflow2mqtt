@@ -326,9 +326,9 @@ class ConversionFunctions:
 
         minv, maxv = (
             # Min voltage is 1.8, but functional voltage is 2.11
-            (2.11, 2.8) if is_tempest
-            else (2.4, 3.5)
-        ) * units.V
+            (2.11 * units.V, 2.8 * units.V) if is_tempest
+            else (2.4 * units.V, 3.5 * units.V)
+        )
 
         if voltage > maxv:
             return 100*units.percent
