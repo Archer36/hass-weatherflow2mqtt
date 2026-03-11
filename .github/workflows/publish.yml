@@ -29,9 +29,10 @@ jobs:
       run: |
         VERSION=$(cat VERSION)
         echo VERSION=$VERSION
+        OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
         docker build . \
           --build-arg REPO_URL=https://github.com/${{ github.repository }} \
-          --tag ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:latest \
-          --tag ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:$VERSION
-        docker push ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:$VERSION
-        docker push ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:latest
+          --tag ghcr.io/${OWNER}/hass-weatherflow2mqtt:latest \
+          --tag ghcr.io/${OWNER}/hass-weatherflow2mqtt:$VERSION
+        docker push ghcr.io/${OWNER}/hass-weatherflow2mqtt:$VERSION
+        docker push ghcr.io/${OWNER}/hass-weatherflow2mqtt:latest
