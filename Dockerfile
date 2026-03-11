@@ -1,5 +1,6 @@
-FROM python:3.11-slim-buster
-LABEL org.opencontainers.image.source="https://github.com/briis/hass-weatherflow2mqtt"
+FROM python:3.11-slim-bookworm
+ARG REPO_URL
+LABEL org.opencontainers.image.source="${REPO_URL}"
 
 RUN mkdir -p /data
 WORKDIR /src/weatherflow2mqtt
@@ -17,7 +18,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 
-ENV TZ=Europe/Copenhagen
+ENV TZ=UTC
 
 EXPOSE 50222/udp
 EXPOSE 1883
