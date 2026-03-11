@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -29,8 +29,6 @@ jobs:
         VERSION=$(cat VERSION)
         echo VERSION=$VERSION
         
-        docker build . --tag ghcr.io/briis/hass-weatherflow2mqtt:latest --tag ghcr.io/briis/hass-weatherflow2mqtt:$VERSION
-        docker create -v $(pwd):/config -p 50222:50222/udp ghcr.io/briis/hass-weatherflow2mqtt:$VERSION
-        docker create -v $(pwd):/config -p 50222:50222/udp ghcr.io/briis/hass-weatherflow2mqtt:latest
-        docker push ghcr.io/briis/hass-weatherflow2mqtt:$VERSION
-        docker push ghcr.io/briis/hass-weatherflow2mqtt:latest
+        docker build . --tag ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:latest --tag ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:$VERSION
+        docker push ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:$VERSION
+        docker push ghcr.io/${{ github.repository_owner }}/hass-weatherflow2mqtt:latest
